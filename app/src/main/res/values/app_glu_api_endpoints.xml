@@ -1,3 +1,5 @@
 <resources>
     <string name="find_routes_by_stop_name_endpoint">https://api.appglu.com/v1/queries/findRoutesByStopName/run</string>
+    <string name="find_stops_by_route_id_endpoint">https://api.appglu.com/v1/queries/findStopsByRouteId/run</string>
+    <string name="find_departures_by_route_id_endpoint">https://api.appglu.com/v1/queries/findDeparturesByRouteId/run</string>
 </resources>

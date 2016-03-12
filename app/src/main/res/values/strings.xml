@@ -4,5 +4,9 @@
     <string name="search_menu_item_title">Search</string>
     <string name="search_menu_item_hint">Street Name</string>
     <string name="map_menu_item_title">Open Map</string>
-    <string name="progress_dialog_text">Searching...</string>
+    <string name="search_progress_dialog_message">Searching...</string>
+
+    <string name="itinerary_menu_item_title">Itinerary</string>
+    <string name="schedule_menu_item_title">Schedule</string>
+    <string name="route_progress_dialog_message">Loading...</string>
 </resources>

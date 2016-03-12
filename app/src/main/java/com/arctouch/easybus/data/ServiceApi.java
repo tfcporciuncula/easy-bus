@@ -1,16 +1,14 @@
 package com.arctouch.easybus.data;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.arctouch.easybus.R;
+import com.arctouch.easybus.data.endpoints.Endpoint;
+import com.arctouch.easybus.data.endpoints.RoutesEndpoint;
+import com.arctouch.easybus.data.endpoints.StopsEndpoint;
 import com.arctouch.easybus.model.Route;
-import com.arctouch.easybus.search.RoutesResult;
+import com.arctouch.easybus.model.Stop;
 
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -20,14 +18,12 @@ import java.util.List;
  */
 public class ServiceApi {
 
-    private static final String TAG = ServiceApi.class.getSimpleName();
-
     private static ServiceApi instance;
 
     private Context context;
 
-    private RestTemplate restTemplate;
-    private HttpHeaders httpHeaders;
+    private Endpoint routesEndpoint;
+    private Endpoint stopsEndpoint;
 
     public static ServiceApi instance(Context context) {
         if (instance == null) {
@@ -38,21 +34,19 @@ public class ServiceApi {
     }
 
     private ServiceApi(Context context) {
-        restTemplate = ServiceHelper.buildRestTemplate();
-        httpHeaders = ServiceHelper.buildHttpHeaders(context);
+        RestTemplate restTemplate = ServiceHelper.buildRestTemplate();
+        HttpHeaders httpHeaders = ServiceHelper.buildHttpHeaders(context);
+
+        routesEndpoint = new RoutesEndpoint(restTemplate, httpHeaders);
+        stopsEndpoint = new StopsEndpoint(restTemplate, httpHeaders);
     }
 
     public List<Route> findRoutesByStopName(String query) {
-        Log.d(TAG, "findRoutesByStopName(" + query + ") was called.");
-        String body = ServiceHelper.buildJsonStopNameParameter(query);
-        HttpEntity<String> request = new HttpEntity<>(body, httpHeaders);
+        return routesEndpoint.call(context, query);
+    }
 
-        String endpoint = context.getString(R.string.find_routes_by_stop_name_endpoint);
-        ResponseEntity<RoutesResult> response = restTemplate.exchange(endpoint, HttpMethod.POST, request, RoutesResult.class);
-
-        List<Route> routes = response.getBody().getResults();
-        Log.d(TAG, "-- routes found: " + routes.toString());
-        return routes;
+    public List<Stop> findStopsByRouteId(long routeId) {
+        return stopsEndpoint.call(context, routeId);
     }
 
 }

@@ -3,7 +3,7 @@ package com.arctouch.easybus.data;
 import java.util.List;
 
 /**
- * Abstract class that represents a response from the AppGlu REST API.
+ * Generic and abstract class that represents a response from the AppGlu REST API.
  *
  * @param <T> The type of the model returned by the response.
  */

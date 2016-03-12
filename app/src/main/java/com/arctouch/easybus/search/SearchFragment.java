@@ -10,7 +10,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -22,20 +21,19 @@ import android.widget.TextView;
 import com.arctouch.easybus.R;
 import com.arctouch.easybus.data.ServiceApi;
 import com.arctouch.easybus.model.Route;
+import com.arctouch.easybus.route.RouteActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Fragment that searches for routes based on street names.
+ * Fragment that allows searches for routes based on street names.
  *
  * It uses an AsyncTaskLoader to make sure orientation changes are properly handled.
  */
 // TODO: handle empty results
 // TODO: handle no internet connection
 public class SearchFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Route>> {
-
-    private static final String TAG = SearchFragment.class.getSimpleName();
 
     private static final int LOADER_ID = 0;
 
@@ -67,9 +65,17 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
         initRoutesLoader();
     }
 
+    private Loader initRoutesLoader() {
+        return getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this);
+    }
+
     @Override
     public void onPause() {
         super.onPause();
+        avoidWindowLeaking();
+    }
+
+    private void avoidWindowLeaking() {
         if (progressDialog != null) {
             progressDialog.dismiss();
         }
@@ -117,13 +123,8 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
         initRoutesLoader().forceLoad();
     }
 
-    private Loader initRoutesLoader() {
-        return getActivity().getSupportLoaderManager().initLoader(LOADER_ID, null, this);
-    }
-
     @Override
     public Loader<List<Route>> onCreateLoader(int id, Bundle args) {
-        Log.d(TAG, "onCreateLoader() was called.");
         return new AsyncTaskLoader<List<Route>>(getActivity()) {
 
             @Override
@@ -131,11 +132,10 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        Log.d(TAG, "Showing ProgressDialog.");
-                        progressDialog = ProgressDialog.show(getActivity(), null, getString(R.string.progress_dialog_text), true);
+                        progressDialog = ProgressDialog.show(
+                                getActivity(), null, getString(R.string.search_progress_dialog_message), true);
                     }
                 });
-                Log.d(TAG, "loadInBackground() was called");
                 return ServiceApi.instance(getContext()).findRoutesByStopName(query);
             }
         };
@@ -143,10 +143,8 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoadFinished(Loader<List<Route>> loader, List<Route> data) {
-        Log.d(TAG, "onLoadFinished() was called.");
         routes = data;
         recyclerView.setAdapter(new RouteAdapter(routes));
-        Log.d(TAG, "Dismissing ProgressDialog.");
         progressDialog.dismiss();
     }
 
@@ -165,7 +163,7 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // start the details activity
+                    startActivity(RouteActivity.newIntent(getActivity(), route));
                 }
             });
             routeTextView = (TextView) itemView;

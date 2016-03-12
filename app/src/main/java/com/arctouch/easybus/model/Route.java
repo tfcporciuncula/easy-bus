@@ -1,7 +1,6 @@
 package com.arctouch.easybus.model;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * Model class that represents a route.
