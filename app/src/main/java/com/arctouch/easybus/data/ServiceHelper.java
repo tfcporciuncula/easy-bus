@@ -15,7 +15,10 @@ import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.http.converter.json.GsonHttpMessageConverter;
 import org.springframework.web.client.RestTemplate;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,9 +35,10 @@ public class ServiceHelper {
     public static RestTemplate buildRestTemplate() {
         RestTemplate restTemplate = new RestTemplate();
 
-        List<HttpMessageConverter<?>> converters = new ArrayList<>();
-        converters.add(new StringHttpMessageConverter());
-        converters.add(new GsonHttpMessageConverter());
+        List<HttpMessageConverter<?>> converters = Arrays.<HttpMessageConverter<?>>asList(
+                new StringHttpMessageConverter(Charset.forName("UTF-8")),
+                new GsonHttpMessageConverter()
+        );
         restTemplate.setMessageConverters(converters);
 
         return restTemplate;
