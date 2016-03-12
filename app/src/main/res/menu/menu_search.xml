@@ -1,10 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-      xmlns:app="http://schemas.android.com/apk/res-auto"
-      xmlns:tools="http://schemas.android.com/tools"
-      tools:context="com.arctouch.easybus.SearchActivity">
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="@string/action_settings"
-        app:showAsAction="never"/>
+        android:id="@+id/search_menu_item"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="@string/search_menu_item_title"
+        android:hint="@string/search_menu_item_hint"
+        app:actionViewClass="android.support.v7.widget.SearchView"
+        app:showAsAction="always"/>
+
+    <item
+        android:id="@+id/map_menu_item"
+        android:icon="@drawable/ic_menu_map"
+        android:title="@string/map_menu_item_title"
+        app:showAsAction="ifRoom|withText"/>
+
 </menu>
