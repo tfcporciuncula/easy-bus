@@ -129,14 +129,13 @@ public class RouteActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() != R.id.itinerary_and_schedule_menu_item) {
-            return super.onOptionsItemSelected(item);
+        if (item.getItemId() == R.id.itinerary_and_schedule_menu_item) {
+            isStopsFragmentsVisible = !isStopsFragmentsVisible;
+            updateFragmentsVisibility();
+            invalidateOptionsMenu();
+            return true;
         }
-
-        isStopsFragmentsVisible = !isStopsFragmentsVisible;
-        updateFragmentsVisibility();
-        invalidateOptionsMenu();
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     private void updateFragmentsVisibility() {

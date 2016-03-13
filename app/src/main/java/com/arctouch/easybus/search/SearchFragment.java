@@ -62,6 +62,7 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onResume() {
         super.onResume();
+//        if (isRoutesLoaderRuning()) {
         if (isLoaderRunning) {
             showProgressDialog();
         }
@@ -70,7 +71,7 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
 
     /*
      * It seems that due to a known bug, this strategy couldn't be used here. The LoaderManager is getting destroyed
-     * after we get back from RouterActivity after changing orientation there and then change orientation again here.
+     * after we get back from RouterActivity after changing orientation there and then changing orientation again here.
      * That's why we're using a flag (isLoaderRunning) instead.
      *
      *     https://code.google.com/p/android/issues/detail?id=20791
@@ -81,8 +82,7 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
 //    }
 
     private void showProgressDialog() {
-        progressDialog = ProgressDialog.show(
-                getActivity(), null, getString(R.string.search_progress_dialog_message), true);
+        progressDialog = ProgressDialog.show(getActivity(), null, getString(R.string.search_progress_dialog_message), true);
     }
 
     private Loader initRoutesLoader() {

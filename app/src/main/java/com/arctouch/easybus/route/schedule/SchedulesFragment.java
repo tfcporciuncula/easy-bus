@@ -36,37 +36,11 @@ public class SchedulesFragment extends RouteFragment implements LoaderManager.Lo
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         if (viewPager == null) {
             initRoutesLoader().forceLoad();
         }
-
         return inflater.inflate(R.layout.fragment_schedules, container, false);
-    }
-
-    private void setupViewPager() {
-        viewPager = (ViewPager) getActivity().findViewById(R.id.schedule_view_pager);
-        viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
-            @Override
-            public Fragment getItem(int position) {
-                return ScheduleFragment.newInstance(schedules[position]);
-            }
-
-            @Override
-            public int getCount() {
-                return schedules.length;
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                return schedules[position].getCalendar().toString();
-            }
-        });
     }
 
     @Override
@@ -100,6 +74,26 @@ public class SchedulesFragment extends RouteFragment implements LoaderManager.Lo
 
         setupViewPager();
         ((RouteActivity) getActivity()).askToDismissProgressDialog();
+    }
+
+    private void setupViewPager() {
+        viewPager = (ViewPager) getActivity().findViewById(R.id.schedule_view_pager);
+        viewPager.setAdapter(new FragmentPagerAdapter(getChildFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                return ScheduleFragment.newInstance(schedules[position]);
+            }
+
+            @Override
+            public int getCount() {
+                return schedules.length;
+            }
+
+            @Override
+            public CharSequence getPageTitle(int position) {
+                return schedules[position].getCalendar().toString();
+            }
+        });
     }
 
     @Override
