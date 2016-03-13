@@ -33,6 +33,7 @@ public class RoutesEndpoint extends AbstractEndpoint<Route, String> {
     }
 
     private String buildJsonBody(String parameter) {
+        parameter = parameter.replace(".", "").replace(" ", "%");
         return buildJsonBody("stopName", "%" + parameter + "%");
     }
 
