@@ -13,12 +13,11 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.arctouch.easybus.R;
-import com.arctouch.easybus.model.Route;
 import com.arctouch.easybus.route.schedule.SchedulesFragment;
 import com.arctouch.easybus.route.stops.StopsFragment;
 
 /**
- * This activity is the host of the StopsFragment and SchedulesFragment.
+ * Activity that works as the host of the StopsFragment and SchedulesFragment.
  */
 public class RouteActivity extends AppCompatActivity {
 

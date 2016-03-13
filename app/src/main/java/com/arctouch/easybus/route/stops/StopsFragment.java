@@ -7,7 +7,6 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,7 +14,6 @@ import android.widget.TextView;
 
 import com.arctouch.easybus.R;
 import com.arctouch.easybus.data.ServiceApi;
-import com.arctouch.easybus.model.Stop;
 import com.arctouch.easybus.route.RouteFragment;
 
 import java.util.ArrayList;
@@ -86,7 +84,7 @@ public class StopsFragment extends RouteFragment implements LoaderManager.Loader
                                 getActivity(), null, getString(R.string.route_progress_dialog_message), true);
                     }
                 });
-                return ServiceApi.instance(getContext()).findStopsByRouteId(getRouteId());
+                return ServiceApi.instance(getContext()).findStopsByRouteId(routeId);
             }
         };
     }

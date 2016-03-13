@@ -1,6 +1,5 @@
 package com.arctouch.easybus.route.schedule;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -8,22 +7,20 @@ import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.arctouch.easybus.R;
 import com.arctouch.easybus.data.ServiceApi;
-import com.arctouch.easybus.model.Schedule;
-import com.arctouch.easybus.model.ScheduleItem;
-import com.arctouch.easybus.model.Stop;
 import com.arctouch.easybus.route.RouteFragment;
 
 import java.util.List;
 
 /**
- * Fragment that presents the schedule for the routes, with a tab for each calendar (weekday, saturday, sunday).
+ * Fragment that presents the schedule for the routes, with a tab for each Calendar (weekday, saturday, sunday).
+ *
+ * It uses an AsyncTaskLoader to make sure orientation changes are properly handled.
  */
 public class SchedulesFragment extends RouteFragment implements LoaderManager.LoaderCallbacks<List<ScheduleItem>> {
 
@@ -31,9 +28,6 @@ public class SchedulesFragment extends RouteFragment implements LoaderManager.Lo
 
     private ViewPager viewPager;
 
-    private Schedule weekdayFragments;
-    private Schedule saturdayFragments;
-    private Schedule sundayFragments;
     private Schedule[] schedules;
 
     public static RouteFragment newInstance(long routeId) {
@@ -90,17 +84,19 @@ public class SchedulesFragment extends RouteFragment implements LoaderManager.Lo
 
             @Override
             public List<ScheduleItem> loadInBackground() {
-                return ServiceApi.instance(getContext()).findDeparturesByRouteId(getRouteId());
+                return ServiceApi.instance(getContext()).findDeparturesByRouteId(routeId);
             }
         };
     }
 
     @Override
     public void onLoadFinished(Loader<List<ScheduleItem>> loader, List<ScheduleItem> data) {
-        weekdayFragments = ScheduleHelper.buildSpecificSchedule(data, ScheduleItem.Calendar.WEEKDAY);
-        saturdayFragments = ScheduleHelper.buildSpecificSchedule(data, ScheduleItem.Calendar.SATURDAY);
-        sundayFragments = ScheduleHelper.buildSpecificSchedule(data, ScheduleItem.Calendar.SUNDAY);
+        Schedule weekdayFragments  = ScheduleHelper.buildSpecificSchedule(data, ScheduleItem.Calendar.WEEKDAY);
+        Schedule saturdayFragments = ScheduleHelper.buildSpecificSchedule(data, ScheduleItem.Calendar.SATURDAY);
+        Schedule sundayFragments   = ScheduleHelper.buildSpecificSchedule(data, ScheduleItem.Calendar.SUNDAY);
+
         schedules = new Schedule[]{weekdayFragments, saturdayFragments, sundayFragments};
+
         setupViewPager();
     }
 

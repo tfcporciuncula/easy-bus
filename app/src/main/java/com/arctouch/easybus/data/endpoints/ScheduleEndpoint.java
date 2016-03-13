@@ -1,10 +1,9 @@
 package com.arctouch.easybus.data.endpoints;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.arctouch.easybus.R;
-import com.arctouch.easybus.model.ScheduleItem;
+import com.arctouch.easybus.route.schedule.ScheduleItem;
 import com.arctouch.easybus.route.schedule.ScheduleResult;
 
 import org.springframework.http.HttpEntity;
@@ -30,8 +29,6 @@ public class ScheduleEndpoint extends AbstractEndpoint<ScheduleItem, Long> {
 
         String endpointUrl = context.getString(R.string.find_departures_by_route_id_endpoint);
         ResponseEntity<ScheduleResult> response = restTemplate.exchange(endpointUrl, HttpMethod.POST, request, ScheduleResult.class);
-
-        Log.d("TAG", "result: " + response.getBody().getResults());
         return response.getBody().getResults();
     }
 

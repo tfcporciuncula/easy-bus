@@ -16,7 +16,7 @@ import org.springframework.web.client.RestTemplate;
  */
 public abstract class AbstractEndpoint<T, P> implements Endpoint<T, P> {
 
-    private static final String TAG = AbstractEndpoint.class.getName();
+    private static final String TAG = AbstractEndpoint.class.getSimpleName();
 
     protected RestTemplate restTemplate;
     protected HttpHeaders httpHeaders;

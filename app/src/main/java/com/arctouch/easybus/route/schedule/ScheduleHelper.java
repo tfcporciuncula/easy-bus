@@ -1,11 +1,11 @@
 package com.arctouch.easybus.route.schedule;
 
-import com.arctouch.easybus.model.Schedule;
-import com.arctouch.easybus.model.ScheduleItem;
-
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Helper that builds a Schedule for a specific Calendar given the complete list of ScheduleItem.
+ */
 public class ScheduleHelper {
 
     public static Schedule buildSpecificSchedule(List<ScheduleItem> scheduleItems, ScheduleItem.Calendar calendar) {

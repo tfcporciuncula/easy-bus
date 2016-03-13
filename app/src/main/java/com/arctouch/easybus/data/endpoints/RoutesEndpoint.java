@@ -3,7 +3,7 @@ package com.arctouch.easybus.data.endpoints;
 import android.content.Context;
 
 import com.arctouch.easybus.R;
-import com.arctouch.easybus.model.Route;
+import com.arctouch.easybus.route.Route;
 import com.arctouch.easybus.search.RoutesResult;
 
 import org.springframework.http.HttpEntity;

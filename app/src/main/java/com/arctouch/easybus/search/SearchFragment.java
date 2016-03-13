@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.arctouch.easybus.R;
 import com.arctouch.easybus.data.ServiceApi;
-import com.arctouch.easybus.model.Route;
+import com.arctouch.easybus.route.Route;
 import com.arctouch.easybus.route.RouteActivity;
 
 import java.util.ArrayList;

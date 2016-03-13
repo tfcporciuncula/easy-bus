@@ -1,4 +1,4 @@
-package com.arctouch.easybus.model;
+package com.arctouch.easybus.route.schedule;
 
 import java.io.Serializable;
 
@@ -7,7 +7,7 @@ import java.io.Serializable;
  */
 public class ScheduleItem implements Serializable {
 
-    public enum Calendar {WEEKDAY, SATURDAY, SUNDAY};
+    public enum Calendar {WEEKDAY, SATURDAY, SUNDAY}
 
     private long id;
     private Calendar calendar;

@@ -6,9 +6,9 @@ import com.arctouch.easybus.data.endpoints.Endpoint;
 import com.arctouch.easybus.data.endpoints.RoutesEndpoint;
 import com.arctouch.easybus.data.endpoints.ScheduleEndpoint;
 import com.arctouch.easybus.data.endpoints.StopsEndpoint;
-import com.arctouch.easybus.model.Route;
-import com.arctouch.easybus.model.ScheduleItem;
-import com.arctouch.easybus.model.Stop;
+import com.arctouch.easybus.route.Route;
+import com.arctouch.easybus.route.schedule.ScheduleItem;
+import com.arctouch.easybus.route.stops.Stop;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;

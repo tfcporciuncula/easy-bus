@@ -1,8 +1,11 @@
-package com.arctouch.easybus.model;
+package com.arctouch.easybus.route.schedule;
 
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ * Model class that represents a schedule for a specific Calendar.
+ */
 public class Schedule implements Serializable {
 
     private List<ScheduleItem> scheduleItems;

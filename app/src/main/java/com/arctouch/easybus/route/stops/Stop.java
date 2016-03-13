@@ -1,4 +1,4 @@
-package com.arctouch.easybus.model;
+package com.arctouch.easybus.route.stops;
 
 import java.io.Serializable;
 

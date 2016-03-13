@@ -5,12 +5,15 @@ import android.support.v4.app.Fragment;
 
 /**
  * Base implementation for the fragments that live within RouteActivity.
+ *
+ * @see com.arctouch.easybus.route.stops.StopsFragment StopsFragment
+ * @see com.arctouch.easybus.route.schedule.SchedulesFragment SchedulesFragment
  */
 public abstract class RouteFragment extends Fragment {
 
     private static final String ARG_ROUTE_ID = "routeId";
 
-    private long routeId;
+    protected long routeId;
 
     protected static RouteFragment newInstance(long routeId, RouteFragment fragment) {
         Bundle bundle = new Bundle();
@@ -26,10 +29,6 @@ public abstract class RouteFragment extends Fragment {
         routeId = getArguments().getLong(ARG_ROUTE_ID);
         setHasOptionsMenu(true);
         setRetainInstance(true);
-    }
-
-    public long getRouteId() {
-        return routeId;
     }
 
 }

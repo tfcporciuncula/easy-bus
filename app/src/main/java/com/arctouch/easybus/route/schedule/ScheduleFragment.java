@@ -10,8 +10,6 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.arctouch.easybus.R;
-import com.arctouch.easybus.model.Schedule;
-import com.arctouch.easybus.model.ScheduleItem;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +17,6 @@ import java.util.List;
 public class ScheduleFragment extends Fragment {
 
     private static final String ARG_SCHEDULE = "schedule";
-
-    private RecyclerView recyclerView;
 
     private Schedule schedule;
 
@@ -41,7 +37,7 @@ public class ScheduleFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_recycler_view, container, false);
+        RecyclerView recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_recycler_view, container, false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(new ScheduleAdapter(schedule.getScheduleItems()));
         return recyclerView;
