@@ -1,6 +1,7 @@
 package com.arctouch.easybus.search;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -20,6 +21,7 @@ import android.widget.TextView;
 
 import com.arctouch.easybus.R;
 import com.arctouch.easybus.data.ServiceApi;
+import com.arctouch.easybus.map.MapsActivity;
 import com.arctouch.easybus.route.Route;
 import com.arctouch.easybus.route.RouteActivity;
 
@@ -141,6 +143,15 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
 
     private void searchRoutes() {
         initRoutesLoader().forceLoad();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.map_menu_item) {
+            startActivity(new Intent(getActivity(), MapsActivity.class));
+            //startActivityForResult(new Intent(getActivity(), MapActivity.class), REQUEST_CODE_MAP);
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

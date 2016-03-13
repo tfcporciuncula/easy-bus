@@ -9,4 +9,6 @@
     <string name="itinerary_menu_item_title">Itinerary</string>
     <string name="schedule_menu_item_title">Schedule</string>
     <string name="route_progress_dialog_message">Loading…</string>
+
+    <string name="title_activity_maps">Map</string>
 </resources>
