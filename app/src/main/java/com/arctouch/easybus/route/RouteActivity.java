@@ -38,17 +38,19 @@ public class RouteActivity extends AppCompatActivity {
         return intent;
     }
 
-    public void showProgressDialog() {
-        progressDialog = ProgressDialog.show(this, null, getString(R.string.route_progress_dialog_message), true);
-    }
-
-    public void dismissProgressDialog() {
+    public void askToDismissProgressDialog() {
         progressDialogDismissCalls++;
 
         final int numberOfChildFragments = 2;
-        if (progressDialog != null && progressDialogDismissCalls >= numberOfChildFragments) {
-            progressDialog.dismiss();
+        if (progressDialogDismissCalls >= numberOfChildFragments) {
+            dismissProgressDialog();
             progressDialogDismissCalls = 0;
+        }
+    }
+
+    private void dismissProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
         }
     }
 
@@ -84,6 +86,22 @@ public class RouteActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putInt(KEY_PROGRESS_DIALOG_DISMISS_CALLS, progressDialogDismissCalls);
         outState.putBoolean(KEY_IS_STOPS_FRAGMENT_VISIBLE, isStopsFragmentsVisible);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isLoaderRuning() && isProgressDialogNotShowing()) {
+            progressDialog = ProgressDialog.show(this, null, getString(R.string.route_progress_dialog_message), true);
+        }
+    }
+
+    private boolean isLoaderRuning() {
+        return getSupportLoaderManager().hasRunningLoaders();
+    }
+
+    private boolean isProgressDialogNotShowing() {
+        return progressDialog == null || !progressDialog.isShowing();
     }
 
     @Override

@@ -99,7 +99,7 @@ public class SchedulesFragment extends RouteFragment implements LoaderManager.Lo
         schedules = new Schedule[]{weekdayFragments, saturdayFragments, sundayFragments};
 
         setupViewPager();
-        ((RouteActivity) getActivity()).dismissProgressDialog();
+        ((RouteActivity) getActivity()).askToDismissProgressDialog();
     }
 
     @Override

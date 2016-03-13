@@ -1,6 +1,5 @@
 package com.arctouch.easybus.route.stops;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.AsyncTaskLoader;
@@ -65,12 +64,6 @@ public class StopsFragment extends RouteFragment implements LoaderManager.Loader
 
             @Override
             public List<Stop> loadInBackground() {
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ((RouteActivity) getActivity()).showProgressDialog();
-                    }
-                });
                 return ServiceApi.instance(getContext()).findStopsByRouteId(routeId);
             }
         };
@@ -80,7 +73,7 @@ public class StopsFragment extends RouteFragment implements LoaderManager.Loader
     public void onLoadFinished(Loader<List<Stop>> loader, List<Stop> data) {
         stops = data;
         recyclerView.setAdapter(new StopAdapter(stops));
-        ((RouteActivity) getActivity()).dismissProgressDialog();
+        ((RouteActivity) getActivity()).askToDismissProgressDialog();
     }
 
     @Override

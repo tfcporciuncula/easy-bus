@@ -39,6 +39,7 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
 
     private RecyclerView recyclerView;
     private ProgressDialog progressDialog;
+    private boolean isLoaderRunning = false;
 
     private String query;
     private List<Route> routes = new ArrayList<>();
@@ -61,7 +62,27 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onResume() {
         super.onResume();
+        if (isLoaderRunning) {
+            showProgressDialog();
+        }
         initRoutesLoader();
+    }
+
+    /*
+     * It seems that due to a known bug, this strategy couldn't be used here. The LoaderManager is getting destroyed
+     * after we get back from RouterActivity after changing orientation there and then change orientation again here.
+     * That's why we're using a flag (isLoaderRunning) instead.
+     *
+     *     https://code.google.com/p/android/issues/detail?id=20791
+     *     https://code.google.com/p/android/issues/detail?id=183783
+     */
+//    private boolean isRoutesLoaderRuning() {
+//        return getActivity().getSupportLoaderManager().hasRunningLoaders();
+//    }
+
+    private void showProgressDialog() {
+        progressDialog = ProgressDialog.show(
+                getActivity(), null, getString(R.string.search_progress_dialog_message), true);
     }
 
     private Loader initRoutesLoader() {
@@ -128,11 +149,11 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
 
             @Override
             public List<Route> loadInBackground() {
+                isLoaderRunning = true;
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        progressDialog = ProgressDialog.show(
-                                getActivity(), null, getString(R.string.search_progress_dialog_message), true);
+                        showProgressDialog();
                     }
                 });
                 return ServiceApi.instance(getContext()).findRoutesByStopName(query);
@@ -142,6 +163,7 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public void onLoadFinished(Loader<List<Route>> loader, List<Route> data) {
+        isLoaderRunning = false;
         routes = data;
         recyclerView.setAdapter(new RouteAdapter(routes));
         progressDialog.dismiss();
