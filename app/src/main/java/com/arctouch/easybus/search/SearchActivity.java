@@ -8,7 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.arctouch.easybus.R;
 
 /**
- * Activity that serves as a simple holder for the SearchFragment.
+ * Activity that serves as the host for the SearchFragment.
  */
 public class SearchActivity extends AppCompatActivity {
 
