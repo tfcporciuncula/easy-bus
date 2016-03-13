@@ -1,4 +1,4 @@
-package com.arctouch.easybus.route;
+package com.arctouch.easybus.route.stops;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
@@ -7,6 +7,7 @@ import android.support.v4.content.AsyncTaskLoader;
 import android.support.v4.content.Loader;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import android.widget.TextView;
 import com.arctouch.easybus.R;
 import com.arctouch.easybus.data.ServiceApi;
 import com.arctouch.easybus.model.Stop;
+import com.arctouch.easybus.route.RouteFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -43,11 +45,10 @@ public class StopsFragment extends RouteFragment implements LoaderManager.Loader
             initRoutesLoader().forceLoad();
         }
 
-        View view = inflater.inflate(R.layout.fragment_stops, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.stops_recycler_view);
+        recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_recycler_view, container, false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(new StopAdapter(new ArrayList<Stop>()));
-        return view;
+        return recyclerView;
     }
 
     @Override
@@ -99,6 +100,7 @@ public class StopsFragment extends RouteFragment implements LoaderManager.Loader
 
     @Override
     public void onLoaderReset(Loader<List<Stop>> loader) {}
+
 
     private class StopHolder extends RecyclerView.ViewHolder {
 

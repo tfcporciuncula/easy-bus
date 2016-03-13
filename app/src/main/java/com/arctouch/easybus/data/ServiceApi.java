@@ -4,8 +4,10 @@ import android.content.Context;
 
 import com.arctouch.easybus.data.endpoints.Endpoint;
 import com.arctouch.easybus.data.endpoints.RoutesEndpoint;
+import com.arctouch.easybus.data.endpoints.ScheduleEndpoint;
 import com.arctouch.easybus.data.endpoints.StopsEndpoint;
 import com.arctouch.easybus.model.Route;
+import com.arctouch.easybus.model.ScheduleItem;
 import com.arctouch.easybus.model.Stop;
 
 import org.springframework.http.HttpHeaders;
@@ -24,6 +26,7 @@ public class ServiceApi {
 
     private Endpoint routesEndpoint;
     private Endpoint stopsEndpoint;
+    private Endpoint scheduleEndpoint;
 
     public static ServiceApi instance(Context context) {
         if (instance == null) {
@@ -39,6 +42,7 @@ public class ServiceApi {
 
         routesEndpoint = new RoutesEndpoint(restTemplate, httpHeaders);
         stopsEndpoint = new StopsEndpoint(restTemplate, httpHeaders);
+        scheduleEndpoint = new ScheduleEndpoint(restTemplate, httpHeaders);
     }
 
     public List<Route> findRoutesByStopName(String query) {
@@ -47,6 +51,10 @@ public class ServiceApi {
 
     public List<Stop> findStopsByRouteId(long routeId) {
         return stopsEndpoint.call(context, routeId);
+    }
+
+    public List<ScheduleItem> findDeparturesByRouteId(long routeId) {
+        return scheduleEndpoint.call(context, routeId);
     }
 
 }

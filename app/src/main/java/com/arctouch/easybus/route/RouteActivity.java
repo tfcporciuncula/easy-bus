@@ -14,15 +14,19 @@ import android.widget.FrameLayout;
 
 import com.arctouch.easybus.R;
 import com.arctouch.easybus.model.Route;
+import com.arctouch.easybus.route.schedule.SchedulesFragment;
+import com.arctouch.easybus.route.stops.StopsFragment;
 
 /**
- * This activity is the host of the StopsFragment and ScheduleFragment.
+ * This activity is the host of the StopsFragment and SchedulesFragment.
  */
 public class RouteActivity extends AppCompatActivity {
 
     private static final String EXTRA_ROUTE = "com.arctouch.easybus.route";
 
     private static final String KEY_IS_STOPS_FRAGMENT_VISIBLE = "isStopsFragmentsVisible";
+
+//    private ProgressDialog progressDialog;
 
     private boolean isStopsFragmentsVisible = true;
 
@@ -31,6 +35,23 @@ public class RouteActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_ROUTE, route);
         return intent;
     }
+
+//    public ProgressDialog getProgressDialog() {
+//        return progressDialog;
+//    }
+//
+//    public void showProgressDialog() {
+//        if (progressDialog != null && !progressDialog.isShowing()) {
+//            progressDialog = ProgressDialog.show(
+//                    this, null, getString(R.string.route_progress_dialog_message), true);
+//        }
+//    }
+//
+//    public void dismissProgressDialog() {
+//        if (progressDialog != null) {
+//            progressDialog.dismiss();
+//        }
+//    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +74,7 @@ public class RouteActivity extends AppCompatActivity {
         if (stopsFragment == null) {
             fragmentManager.beginTransaction()
                     .add(R.id.fragment_stops_container, StopsFragment.newInstance(route.getId()))
-                    .add(R.id.fragment_schedule_container, ScheduleFragment.newInstance(route.getId()))
+                    .add(R.id.fragment_schedule_container, SchedulesFragment.newInstance(route.getId()))
                     .commit();
         }
     }
@@ -63,6 +84,12 @@ public class RouteActivity extends AppCompatActivity {
         super.onSaveInstanceState(outState);
         outState.putBoolean(KEY_IS_STOPS_FRAGMENT_VISIBLE, isStopsFragmentsVisible);
     }
+
+//    @Override
+//    public void onPause() {
+//        super.onPause();
+//        dismissProgressDialog();
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

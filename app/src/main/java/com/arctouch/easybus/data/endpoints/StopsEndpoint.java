@@ -4,7 +4,7 @@ import android.content.Context;
 
 import com.arctouch.easybus.R;
 import com.arctouch.easybus.model.Stop;
-import com.arctouch.easybus.route.StopsResult;
+import com.arctouch.easybus.route.stops.StopsResult;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;

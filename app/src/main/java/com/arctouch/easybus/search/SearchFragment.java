@@ -52,11 +52,10 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
-        recyclerView = (RecyclerView) view.findViewById(R.id.routes_recycler_view);
+        recyclerView = (RecyclerView) inflater.inflate(R.layout.fragment_recycler_view, container, false);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         recyclerView.setAdapter(new RouteAdapter(routes));
-        return view;
+        return recyclerView;
     }
 
     @Override
