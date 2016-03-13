@@ -12,4 +12,6 @@
 
     <string name="fetching_address">Fetching address...</string>
     <string name="address_not_found">No address found</string>
+    <string name="on_connection_failed_message">Connection with Google Maps has failed.</string>
+    <string name="on_connection_suspended_message">Connection with Google Maps has been suspended.</string>
 </resources>

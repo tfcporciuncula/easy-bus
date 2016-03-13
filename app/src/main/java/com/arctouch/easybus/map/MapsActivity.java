@@ -5,13 +5,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
-import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.arctouch.easybus.R;
 import com.google.android.gms.common.ConnectionResult;
@@ -153,12 +154,12 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     public void onConnectionSuspended(int i) {
-
+        Toast.makeText(this, R.string.on_connection_suspended_message, Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
-
+        Toast.makeText(this, R.string.on_connection_failed_message, Toast.LENGTH_LONG).show();
     }
 
     @Override
