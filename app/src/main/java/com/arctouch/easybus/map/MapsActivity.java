@@ -7,9 +7,11 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Handler;
 import android.os.ResultReceiver;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.arctouch.easybus.R;
 import com.google.android.gms.common.ConnectionResult;
@@ -52,6 +54,14 @@ public class MapsActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
 
+        FloatingActionButton searchFab = (FloatingActionButton) findViewById(R.id.search_fab);
+        searchFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                triggerSearch();
+            }
+        });
+
         if (savedInstanceState != null) {
             currentStreet = savedInstanceState.getString(KEY_CURRENT_STREET);
         }
@@ -71,6 +81,15 @@ public class MapsActivity extends AppCompatActivity
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putString(KEY_CURRENT_STREET, currentStreet);
+    }
+
+    private void triggerSearch() {
+        if (currentStreet != null) {
+            Intent data = new Intent();
+            data.putExtra(EXTRA_STREET_NAME, currentStreet);
+            setResult(Activity.RESULT_OK, data);
+            finish();
+        }
     }
 
     @Override
@@ -188,19 +207,8 @@ public class MapsActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
-        setActivityResult();
+        setResult(Activity.RESULT_CANCELED);
         super.onBackPressed();
-    }
-
-    private void setActivityResult() {
-        if (currentStreet == null) {
-            setResult(Activity.RESULT_CANCELED);
-            return;
-        }
-
-        Intent data = new Intent();
-        data.putExtra(EXTRA_STREET_NAME, currentStreet);
-        setResult(Activity.RESULT_OK, data);
     }
 
 }
