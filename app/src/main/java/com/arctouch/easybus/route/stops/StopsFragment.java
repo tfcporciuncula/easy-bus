@@ -106,7 +106,6 @@ public class StopsFragment extends RouteFragment implements LoaderManager.Loader
         @Override
         public StopHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            // TODO: maybe define my own layout instead of simple_list_item_1
             View view = layoutInflater.inflate(android.R.layout.simple_list_item_1, parent, false);
             return new StopHolder(view);
         }

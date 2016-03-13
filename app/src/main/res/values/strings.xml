@@ -10,5 +10,6 @@
     <string name="schedule_menu_item_title">Schedule</string>
     <string name="route_progress_dialog_message">Loading…</string>
 
-    <string name="title_activity_maps">Map</string>
+    <string name="fetching_address">Fetching address...</string>
+    <string name="address_not_found">No address found</string>
 </resources>

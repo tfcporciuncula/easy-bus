@@ -1,5 +1,6 @@
 package com.arctouch.easybus.search;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -37,10 +38,16 @@ import java.util.List;
 // TODO: handle no internet connection
 public class SearchFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Route>> {
 
+    private static final String TAG = SearchFragment.class.getSimpleName();
+
     private static final int LOADER_ID = 0;
 
+    private static final int REQUEST_CODE_MAP = 0;
+
+    private SearchView searchView;
     private RecyclerView recyclerView;
     private ProgressDialog progressDialog;
+
     private boolean isLoaderRunning = false;
 
     private String query;
@@ -65,7 +72,7 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
     public void onResume() {
         super.onResume();
 //        if (isRoutesLoaderRuning()) {
-        if (isLoaderRunning) {
+        if (isLoaderRunning && isProgressDialogNotShowing()) {
             showProgressDialog();
         }
         initRoutesLoader();
@@ -82,6 +89,10 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
 //    private boolean isRoutesLoaderRuning() {
 //        return getActivity().getSupportLoaderManager().hasRunningLoaders();
 //    }
+
+    private boolean isProgressDialogNotShowing() {
+        return progressDialog == null || !progressDialog.isShowing();
+    }
 
     private void showProgressDialog() {
         progressDialog = ProgressDialog.show(getActivity(), null, getString(R.string.search_progress_dialog_message), true);
@@ -108,15 +119,13 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_search, menu);
 
-        final SearchView searchView = getSearchView(menu);
+        searchView = getSearchView(menu);
         searchView.setQueryHint(getString(R.string.search_menu_item_hint));
         if (!TextUtils.isEmpty(query)) {
             searchView.post(new Runnable() {
                 @Override
                 public void run() {
-                    searchView.setIconified(false);
-                    searchView.setQuery(query, false);
-                    searchView.clearFocus();
+                    updateSearchView();
                 }
             });
         }
@@ -141,6 +150,12 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
         return (SearchView) searchMenuItem.getActionView();
     }
 
+    private void updateSearchView() {
+        searchView.setIconified(false);
+        searchView.setQuery(query, false);
+        searchView.clearFocus();
+    }
+
     private void searchRoutes() {
         initRoutesLoader().forceLoad();
     }
@@ -148,10 +163,19 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.map_menu_item) {
-            startActivity(new Intent(getActivity(), MapsActivity.class));
-            //startActivityForResult(new Intent(getActivity(), MapActivity.class), REQUEST_CODE_MAP);
+            startActivityForResult(new Intent(getActivity(), MapsActivity.class), REQUEST_CODE_MAP);
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_MAP) {
+            query = MapsActivity.getSelectedStreetName(data);
+            updateSearchView();
+            searchRoutes();
+        }
     }
 
     @Override
@@ -219,7 +243,6 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
         @Override
         public RouteHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            // TODO: maybe define my own layout instead of simple_list_item_1
             View view = layoutInflater.inflate(android.R.layout.simple_list_item_1, parent, false);
             return new RouteHolder(view);
         }

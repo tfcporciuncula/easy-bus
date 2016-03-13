@@ -72,7 +72,6 @@ public class ScheduleFragment extends Fragment {
         @Override
         public ScheduleHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
-            // TODO: maybe define my own layout instead of simple_list_item_1
             View view = layoutInflater.inflate(android.R.layout.simple_list_item_1, parent, false);
             return new ScheduleHolder(view);
         }
