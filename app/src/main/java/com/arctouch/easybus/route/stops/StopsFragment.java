@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.arctouch.easybus.R;
 import com.arctouch.easybus.data.ServiceApi;
+import com.arctouch.easybus.route.RouteActivity;
 import com.arctouch.easybus.route.RouteFragment;
 
 import java.util.ArrayList;
@@ -29,7 +30,6 @@ public class StopsFragment extends RouteFragment implements LoaderManager.Loader
     private static final int LOADER_ID = 1;
 
     private RecyclerView recyclerView;
-    private ProgressDialog progressDialog;
 
     private List<Stop> stops;
 
@@ -60,18 +60,6 @@ public class StopsFragment extends RouteFragment implements LoaderManager.Loader
     }
 
     @Override
-    public void onPause() {
-        super.onPause();
-        avoidWindowLeaking();
-    }
-
-    private void avoidWindowLeaking() {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
-    }
-
-    @Override
     public Loader<List<Stop>> onCreateLoader(int id, Bundle args) {
         return new AsyncTaskLoader<List<Stop>>(getActivity()) {
 
@@ -80,8 +68,7 @@ public class StopsFragment extends RouteFragment implements LoaderManager.Loader
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        progressDialog = ProgressDialog.show(
-                                getActivity(), null, getString(R.string.route_progress_dialog_message), true);
+                        ((RouteActivity) getActivity()).showProgressDialog();
                     }
                 });
                 return ServiceApi.instance(getContext()).findStopsByRouteId(routeId);
@@ -93,7 +80,7 @@ public class StopsFragment extends RouteFragment implements LoaderManager.Loader
     public void onLoadFinished(Loader<List<Stop>> loader, List<Stop> data) {
         stops = data;
         recyclerView.setAdapter(new StopAdapter(stops));
-        progressDialog.dismiss();
+        ((RouteActivity) getActivity()).dismissProgressDialog();
     }
 
     @Override

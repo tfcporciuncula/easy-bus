@@ -14,6 +14,9 @@ import com.arctouch.easybus.R;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Fragment that serves as a tab within SchedulesFragment, presenting the schedule for a specific Calendar.
+ */
 public class ScheduleFragment extends Fragment {
 
     private static final String ARG_SCHEDULE = "schedule";

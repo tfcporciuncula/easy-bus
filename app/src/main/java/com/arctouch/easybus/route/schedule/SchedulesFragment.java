@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 
 import com.arctouch.easybus.R;
 import com.arctouch.easybus.data.ServiceApi;
+import com.arctouch.easybus.route.RouteActivity;
 import com.arctouch.easybus.route.RouteFragment;
 
 import java.util.List;
@@ -98,6 +99,7 @@ public class SchedulesFragment extends RouteFragment implements LoaderManager.Lo
         schedules = new Schedule[]{weekdayFragments, saturdayFragments, sundayFragments};
 
         setupViewPager();
+        ((RouteActivity) getActivity()).dismissProgressDialog();
     }
 
     @Override

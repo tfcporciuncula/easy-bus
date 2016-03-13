@@ -1,5 +1,6 @@
 package com.arctouch.easybus.route;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,10 +24,12 @@ public class RouteActivity extends AppCompatActivity {
 
     private static final String EXTRA_ROUTE = "com.arctouch.easybus.route";
 
+    private static final String KEY_PROGRESS_DIALOG_DISMISS_CALLS = "progressDialogDismissCalls";
     private static final String KEY_IS_STOPS_FRAGMENT_VISIBLE = "isStopsFragmentsVisible";
 
-//    private ProgressDialog progressDialog;
+    private ProgressDialog progressDialog;
 
+    private int progressDialogDismissCalls = 0;
     private boolean isStopsFragmentsVisible = true;
 
     public static Intent newIntent(Context context, Route route) {
@@ -35,22 +38,19 @@ public class RouteActivity extends AppCompatActivity {
         return intent;
     }
 
-//    public ProgressDialog getProgressDialog() {
-//        return progressDialog;
-//    }
-//
-//    public void showProgressDialog() {
-//        if (progressDialog != null && !progressDialog.isShowing()) {
-//            progressDialog = ProgressDialog.show(
-//                    this, null, getString(R.string.route_progress_dialog_message), true);
-//        }
-//    }
-//
-//    public void dismissProgressDialog() {
-//        if (progressDialog != null) {
-//            progressDialog.dismiss();
-//        }
-//    }
+    public void showProgressDialog() {
+        progressDialog = ProgressDialog.show(this, null, getString(R.string.route_progress_dialog_message), true);
+    }
+
+    public void dismissProgressDialog() {
+        progressDialogDismissCalls++;
+
+        final int numberOfChildFragments = 2;
+        if (progressDialog != null && progressDialogDismissCalls >= numberOfChildFragments) {
+            progressDialog.dismiss();
+            progressDialogDismissCalls = 0;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +62,7 @@ public class RouteActivity extends AppCompatActivity {
         addFragmentsIfNecessary(route);
 
         if (savedInstanceState != null) {
+            progressDialogDismissCalls = savedInstanceState.getInt(KEY_PROGRESS_DIALOG_DISMISS_CALLS);
             isStopsFragmentsVisible = savedInstanceState.getBoolean(KEY_IS_STOPS_FRAGMENT_VISIBLE);
             updateFragmentsVisibility();
         }
@@ -81,14 +82,15 @@ public class RouteActivity extends AppCompatActivity {
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
+        outState.putInt(KEY_PROGRESS_DIALOG_DISMISS_CALLS, progressDialogDismissCalls);
         outState.putBoolean(KEY_IS_STOPS_FRAGMENT_VISIBLE, isStopsFragmentsVisible);
     }
 
-//    @Override
-//    public void onPause() {
-//        super.onPause();
-//        dismissProgressDialog();
-//    }
+    @Override
+    public void onPause() {
+        super.onPause();
+        dismissProgressDialog();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
