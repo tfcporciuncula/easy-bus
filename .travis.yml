@@ -9,4 +9,4 @@ android:
     - extra-android-m2repository
     
 script:
-  - gradlew build check --stacktrace --info
+  - ./gradlew build check --stacktrace --info
