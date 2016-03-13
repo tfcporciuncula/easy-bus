@@ -27,6 +27,7 @@ public class FetchStreetNameIntentService extends IntentService {
 
     private static final String EXTRA_RECEIVER  = "com.arctouch.easybus.receiver";
     private static final String EXTRA_LAT_LNG   = "com.arctouch.easybus.lat_lng";
+
     private static final String KEY_STREET_NAME = "com.arctouch.easybus.street_name";
 
     public FetchStreetNameIntentService() {
@@ -37,8 +38,6 @@ public class FetchStreetNameIntentService extends IntentService {
         Intent intent = new Intent(context, FetchStreetNameIntentService.class);
         intent.putExtra(EXTRA_RECEIVER, receiver);
         intent.putExtra(EXTRA_LAT_LNG, location);
-
-        Log.d(TAG, "Starting FetchStreetNameIntentService service for location: " + location);
         context.startService(intent);
     }
 
@@ -64,7 +63,6 @@ public class FetchStreetNameIntentService extends IntentService {
         List<Address> addresses = geocoder.getFromLocation(location.latitude, location.longitude, 1);
         if (addresses.size() > 0) {
             Address address = addresses.get(0);
-            Log.d(TAG, "Address found: " + address);
             String streetName = extractStreetName(address);
 
             Bundle bundle = new Bundle();
@@ -78,12 +76,9 @@ public class FetchStreetNameIntentService extends IntentService {
     private String extractStreetName(Address address) {
         String thoroughfare = address.getThoroughfare();
         if (thoroughfare != null) {
-            Log.d(TAG, "Street name extracted (thoroughfare): " + thoroughfare);
             return thoroughfare;
         }
-        String firstAddressLine = address.getAddressLine(0);
-        Log.d(TAG, "Street name extracted (first address line): " + firstAddressLine);
-        return firstAddressLine;
+        return address.getAddressLine(0);
     }
 
 }

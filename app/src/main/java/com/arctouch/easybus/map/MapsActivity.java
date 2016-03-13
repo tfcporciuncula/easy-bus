@@ -35,11 +35,13 @@ import com.google.android.gms.maps.model.MarkerOptions;
 public class MapsActivity extends AppCompatActivity
         implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks {
 
-    private static final int REQUEST_CODE_LOCATION_PERMISSION = 10;
-    private static final int CURRENT_LOCATION_ZOOM = 16;
+    private static final String EXTRA_STREET_NAME = "com.arctouch.easybus.street_name";
 
     private static final String KEY_CURRENT_STREET = "currentStreet";
-    private static final String EXTRA_STREET_NAME = "com.arctouch.easybus.street_name";
+
+    private static final int REQUEST_CODE_LOCATION_PERMISSION = 10;
+
+    private static final float CURRENT_LOCATION_ZOOM = 16;
 
     private GoogleMap map;
     private GoogleApiClient googleApiClient;
@@ -96,22 +98,26 @@ public class MapsActivity extends AppCompatActivity
     @Override
     public void onConnected(Bundle bundle) {
         if (currentStreet == null) {
-            zoomOnCurrentLocationAndAddStreetMark();
+            zoomOnCurrentLocationAndMarkStreet();
         }
     }
 
-    private void zoomOnCurrentLocationAndAddStreetMark() {
+    private void zoomOnCurrentLocationAndMarkStreet() {
         if (hasLocationAccessPermission()) {
-//            Location lastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
-//            if (lastKnownLocation != null) {
-//                zoomOnLocationAndAddStreetMark(lastKnownLocation);
-//                return;
-//            }
+            // this is way faster
+            final Location lastKnownLocation = LocationServices.FusedLocationApi.getLastLocation(googleApiClient);
+            if (lastKnownLocation != null) {
+                zoomOnLocationAndMarkStreet(lastKnownLocation);
+            }
+            // but it might be out of date, so we perform a new request just in case
             LocationRequest request = buildCurrentLocationRequest();
             LocationServices.FusedLocationApi.requestLocationUpdates(googleApiClient, request, new LocationListener() {
                 @Override
                 public void onLocationChanged(Location location) {
-                    zoomOnLocationAndAddStreetMark(location);
+                    final float tenMeters = 10;
+                    if (location.distanceTo(lastKnownLocation) >= tenMeters) {
+                        zoomOnLocationAndMarkStreet(location);
+                    }
                 }
             });
         } else {
@@ -136,9 +142,9 @@ public class MapsActivity extends AppCompatActivity
         return request;
     }
 
-    private void zoomOnLocationAndAddStreetMark(Location location) {
+    private void zoomOnLocationAndMarkStreet(Location location) {
         LatLng currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-        addNewStreetMarker(currentLocation);
+        markStreet(currentLocation);
         map.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, CURRENT_LOCATION_ZOOM));
     }
 
@@ -147,7 +153,7 @@ public class MapsActivity extends AppCompatActivity
         if (requestCode == REQUEST_CODE_LOCATION_PERMISSION) {
             if (grantResults.length > 0 && (grantResults[0] == PackageManager.PERMISSION_GRANTED) ||
                     (grantResults[1] == PackageManager.PERMISSION_GRANTED)) {
-                zoomOnCurrentLocationAndAddStreetMark();
+                zoomOnCurrentLocationAndMarkStreet();
             }
         }
     }
@@ -172,12 +178,12 @@ public class MapsActivity extends AppCompatActivity
         map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
-                addNewStreetMarker(latLng);
+                markStreet(latLng);
             }
         });
     }
 
-    private void addNewStreetMarker(final LatLng latLng) {
+    private void markStreet(final LatLng latLng) {
         ResultReceiver receiver = new ResultReceiver(new Handler()){
             @Override
             protected void onReceiveResult(int resultCode, Bundle resultData) {
@@ -195,7 +201,6 @@ public class MapsActivity extends AppCompatActivity
 
     private void addMarker(LatLng latLng, String title) {
         map.clear();
-
         Marker marker = map.addMarker(new MarkerOptions().position(latLng).title(title));
         marker.showInfoWindow();
     }

@@ -76,7 +76,7 @@ public class RouteActivity extends AppCompatActivity {
         if (stopsFragment == null) {
             fragmentManager.beginTransaction()
                     .add(R.id.fragment_stops_container, StopsFragment.newInstance(route.getId()))
-                    .add(R.id.fragment_schedule_container, SchedulesFragment.newInstance(route.getId()))
+                    .add(R.id.fragment_schedules_container, SchedulesFragment.newInstance(route.getId()))
                     .commit();
         }
     }
@@ -140,7 +140,7 @@ public class RouteActivity extends AppCompatActivity {
 
     private void updateFragmentsVisibility() {
         FrameLayout stopsFragmentContainer = (FrameLayout) findViewById(R.id.fragment_stops_container);
-        FrameLayout scheduleFragmentContainer = (FrameLayout) findViewById(R.id.fragment_schedule_container);
+        FrameLayout scheduleFragmentContainer = (FrameLayout) findViewById(R.id.fragment_schedules_container);
         if (isStopsFragmentsVisible) {
             stopsFragmentContainer.setVisibility(View.VISIBLE);
             scheduleFragmentContainer.setVisibility(View.GONE);

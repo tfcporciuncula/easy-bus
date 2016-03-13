@@ -8,7 +8,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.web.client.RestTemplate;
 
 /**
- * Base implementation of an Endpoint that holds the RestTemplate and the HttpHeader.
+ * Base abstract implementation of an Endpoint that holds the RestTemplate and the HttpHeader.
  * It also handles the request body building (heheh).
  *
  * @param <T> The type returned by the endpoint.

@@ -21,6 +21,8 @@ import java.util.List;
  */
 public class ServiceHelper {
 
+    private static final Charset ENCODING = Charset.forName("UTF-8");
+
     private static final String APP_GLU_CUSTOM_HEADER_NAME = "X-AppGlu-Environment";
     private static final String APP_GLU_CUSTOM_HEADER_VALUE = "staging";
 
@@ -28,7 +30,7 @@ public class ServiceHelper {
         RestTemplate restTemplate = new RestTemplate();
 
         List<HttpMessageConverter<?>> converters = Arrays.<HttpMessageConverter<?>>asList(
-                new StringHttpMessageConverter(Charset.forName("UTF-8")),
+                new StringHttpMessageConverter(ENCODING),
                 new GsonHttpMessageConverter()
         );
         restTemplate.setMessageConverters(converters);

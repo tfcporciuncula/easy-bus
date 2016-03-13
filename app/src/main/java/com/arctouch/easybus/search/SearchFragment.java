@@ -48,10 +48,9 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
     private RecyclerView recyclerView;
     private ProgressDialog progressDialog;
 
-    private boolean isLoaderRunning = false;
-
     private String query;
     private List<Route> routes = new ArrayList<>();
+    private boolean isLoaderRunning = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -165,12 +164,11 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
         if (item.getItemId() == R.id.map_menu_item) {
             startActivityForResult(new Intent(getActivity(), MapsActivity.class), REQUEST_CODE_MAP);
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_MAP) {
             query = MapsActivity.getSelectedStreetName(data);
             updateSearchView();
