@@ -188,7 +188,9 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        showProgressDialog();
+                        if (isProgressDialogNotShowing()) {
+                            showProgressDialog();
+                        }
                     }
                 });
                 return ServiceApi.instance(getContext()).findRoutesByStopName(query);
