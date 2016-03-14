@@ -217,6 +217,10 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
             routes = data;
             recyclerView.setAdapter(new RouteAdapter(routes));
             progressDialog.dismiss();
+
+            if (data.size() == 0) {
+                Toast.makeText(getActivity(), R.string.no_routes_found_message, Toast.LENGTH_LONG).show();
+            }
         }
     }
 

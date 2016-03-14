@@ -193,7 +193,7 @@ public class MapsActivity extends AppCompatActivity
                     currentStreet = FetchStreetNameIntentService.getStreetRetrieved(resultData);
                     addMarker(latLng, currentStreet);
                 } else {
-                    addMarker(latLng, getString(R.string.address_not_found));
+                    addMarker(latLng, getString(R.string.no_address_found));
                 }
             }
         };
