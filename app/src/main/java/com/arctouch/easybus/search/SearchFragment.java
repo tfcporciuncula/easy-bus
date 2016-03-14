@@ -39,8 +39,6 @@ import java.util.List;
  */
 public class SearchFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Route>> {
 
-    private static final String TAG = SearchFragment.class.getSimpleName();
-
     private static final int LOADER_ID = 0;
 
     private static final int REQUEST_CODE_MAP = 0;

@@ -27,7 +27,7 @@ public abstract class AbstractEndpoint<T, P> implements Endpoint<T, P> {
     }
 
     // {"params": {"paramName": paramValue}}
-    protected static String buildJsonBody(String paramName, Object paramValue) {
+    protected String buildJsonBody(String paramName, P paramValue) {
         JSONObject innerParam = new JSONObject();
         JSONObject params = new JSONObject();
 
