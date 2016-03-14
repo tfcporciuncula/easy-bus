@@ -19,12 +19,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.arctouch.easybus.R;
 import com.arctouch.easybus.data.ServiceApi;
 import com.arctouch.easybus.map.MapsActivity;
 import com.arctouch.easybus.route.Route;
 import com.arctouch.easybus.route.RouteActivity;
+import com.arctouch.easybus.util.ConnectivityHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,8 +36,6 @@ import java.util.List;
  *
  * It uses an AsyncTaskLoader to make sure orientation changes are properly handled.
  */
-// TODO: handle empty results
-// TODO: handle no internet connection
 public class SearchFragment extends Fragment implements LoaderManager.LoaderCallbacks<List<Route>> {
 
     private static final String TAG = SearchFragment.class.getSimpleName();
@@ -183,15 +183,25 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
             @Override
             public List<Route> loadInBackground() {
                 isLoaderRunning = true;
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (isProgressDialogNotShowing()) {
-                            showProgressDialog();
+                if (ConnectivityHelper.isInternetConnectionAvailable(getActivity())) {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (isProgressDialogNotShowing()) {
+                                showProgressDialog();
+                            }
                         }
-                    }
-                });
-                return ServiceApi.instance(getContext()).findRoutesByStopName(query);
+                    });
+                    return ServiceApi.instance(getContext()).findRoutesByStopName(query);
+                } else {
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(getActivity(), R.string.no_internet_connection_message, Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    return null;
+                }
             }
         };
     }
@@ -199,9 +209,11 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
     @Override
     public void onLoadFinished(Loader<List<Route>> loader, List<Route> data) {
         isLoaderRunning = false;
-        routes = data;
-        recyclerView.setAdapter(new RouteAdapter(routes));
-        progressDialog.dismiss();
+        if (data != null) {
+            routes = data;
+            recyclerView.setAdapter(new RouteAdapter(routes));
+            progressDialog.dismiss();
+        }
     }
 
     @Override
@@ -219,7 +231,11 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    startActivity(RouteActivity.newIntent(getActivity(), route));
+                    if (ConnectivityHelper.isInternetConnectionAvailable(getActivity())) {
+                        startActivity(RouteActivity.newIntent(getActivity(), route));
+                    } else {
+                        Toast.makeText(getActivity(), R.string.no_internet_connection_message, Toast.LENGTH_LONG).show();
+                    }
                 }
             });
             routeTextView = (TextView) itemView;

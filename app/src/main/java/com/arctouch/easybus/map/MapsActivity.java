@@ -92,6 +92,8 @@ public class MapsActivity extends AppCompatActivity
             data.putExtra(EXTRA_STREET_NAME, currentStreet);
             setResult(Activity.RESULT_OK, data);
             finish();
+        } else {
+            Toast.makeText(this, R.string.no_address_selected_message, Toast.LENGTH_LONG).show();
         }
     }
 
