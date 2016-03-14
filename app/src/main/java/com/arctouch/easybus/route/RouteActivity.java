@@ -2,10 +2,12 @@ package com.arctouch.easybus.route;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.LoaderManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -91,13 +93,16 @@ public class RouteActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if (isLoaderRuning() && isProgressDialogNotShowing()) {
-            progressDialog = ProgressDialog.show(this, null, getString(R.string.route_progress_dialog_message), true);
+        final LoaderManager manager = getSupportLoaderManager();
+        if (manager.hasRunningLoaders() && isProgressDialogNotShowing()) {
+            progressDialog = ProgressDialog.show(this, null, getString(R.string.route_progress_dialog_message), true, true, new DialogInterface.OnCancelListener() {
+                @Override
+                public void onCancel(DialogInterface dialog) {
+                    manager.destroyLoader(StopsFragment.LOADER_ID);
+                    manager.destroyLoader(SchedulesFragment.LOADER_ID);
+                }
+            });
         }
-    }
-
-    private boolean isLoaderRuning() {
-        return getSupportLoaderManager().hasRunningLoaders();
     }
 
     private boolean isProgressDialogNotShowing() {

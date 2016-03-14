@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class StopsFragment extends RouteFragment implements LoaderManager.LoaderCallbacks<List<Stop>> {
 
-    private static final int LOADER_ID = 1;
+    public static final int LOADER_ID = 1;
 
     private RecyclerView recyclerView;
 

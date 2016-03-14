@@ -25,7 +25,7 @@ import java.util.List;
  */
 public class SchedulesFragment extends RouteFragment implements LoaderManager.LoaderCallbacks<List<ScheduleItem>> {
 
-    private static final int LOADER_ID = 2;
+    public static final int LOADER_ID = 2;
 
     private ViewPager viewPager;
 
