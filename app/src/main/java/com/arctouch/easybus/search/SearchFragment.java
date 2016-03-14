@@ -52,6 +52,7 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
     private String query;
     private List<Route> routes = new ArrayList<>();
     private boolean isLoaderRunning = false;
+    private boolean hasShowedNoRoutesFoundMessage = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -186,7 +187,6 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
 
             @Override
             public List<Route> loadInBackground() {
-                isLoaderRunning = true;
                 if (ConnectivityHelper.isInternetConnectionAvailable(getActivity())) {
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
@@ -196,6 +196,8 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
                             }
                         }
                     });
+                    isLoaderRunning = true;
+                    hasShowedNoRoutesFoundMessage = false;
                     return ServiceApi.instance(getContext()).findRoutesByStopName(query);
                 } else {
                     getActivity().runOnUiThread(new Runnable() {
@@ -218,8 +220,9 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
             recyclerView.setAdapter(new RouteAdapter(routes));
             progressDialog.dismiss();
 
-            if (data.size() == 0) {
+            if (data.size() == 0 && !hasShowedNoRoutesFoundMessage) {
                 Toast.makeText(getActivity(), R.string.no_routes_found_message, Toast.LENGTH_LONG).show();
+                hasShowedNoRoutesFoundMessage = true;
             }
         }
     }
