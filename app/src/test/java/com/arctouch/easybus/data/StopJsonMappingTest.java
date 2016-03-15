@@ -19,7 +19,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class StopJsonMappingTest {
 
-    // this is the response when querying 'findStopsByRouteId' with '35' as parameter
     private static final String SOME_STOPS_RESPONSE =
             "{\"rows\":[" +
                     "{\"id\":1,\"name\":\"TICEN\",\"sequence\":1,\"route_id\":35}," +

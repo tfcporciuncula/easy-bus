@@ -19,7 +19,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class ScheduleJsonMappingTest {
 
-    // this is part of the response when querying 'findDeparturesByRouteId' with '35' as parameter
     private static final String SOME_DEPARTURES_RESPONSE =
             "{\"rows\":[" +
                     "{\"id\":472,\"calendar\":\"WEEKDAY\",\"time\":\"06:00\"}," +

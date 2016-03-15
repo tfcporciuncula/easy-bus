@@ -3,8 +3,6 @@ package com.arctouch.easybus.data;
 import android.content.Context;
 
 import com.arctouch.easybus.R;
-import com.arctouch.easybus.data.ServiceApi;
-import com.arctouch.easybus.data.ServiceHelper;
 import com.arctouch.easybus.data.endpoints.Endpoint;
 
 import org.junit.Before;
@@ -44,8 +42,7 @@ public class ServiceApiTest {
     @Before
     public void setup() throws Exception {
         PowerMockito.mockStatic(ServiceHelper.class);
-        // I can't create an instance of RestTemplate in the Android Unit Tests environment, so let's avoid that
-        when(ServiceHelper.buildRestTemplate()).thenReturn(null);
+        avoidRestTemplateCreationDuringTestExecution();
 
         when(context.getString(R.string.app_glu_username)).thenReturn("what");
         when(context.getString(R.string.app_glu_password)).thenReturn("ever");
@@ -54,6 +51,10 @@ public class ServiceApiTest {
         Whitebox.setInternalState(instance, "routesEndpoint", routesEndpoint);
         Whitebox.setInternalState(instance, "stopsEndpoint", stopsEndpoint);
         Whitebox.setInternalState(instance, "scheduleEndpoint", scheduleEndpoint);
+    }
+
+    private void avoidRestTemplateCreationDuringTestExecution() {
+        when(ServiceHelper.buildRestTemplate()).thenReturn(null);
     }
 
     @Test

@@ -121,7 +121,8 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.menu_search, menu);
 
-        searchView = getSearchView(menu);
+        MenuItem searchMenuItem = menu.findItem(R.id.search_menu_item);
+        searchView = (SearchView) searchMenuItem.getActionView();
         searchView.setQueryHint(getString(R.string.search_menu_item_hint));
         if (!TextUtils.isEmpty(query)) {
             searchView.post(new Runnable() {
@@ -145,11 +146,6 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
                 return true;
             }
         });
-    }
-
-    private SearchView getSearchView(Menu menu) {
-        MenuItem searchMenuItem = menu.findItem(R.id.search_menu_item);
-        return (SearchView) searchMenuItem.getActionView();
     }
 
     private void updateSearchView() {
@@ -248,6 +244,7 @@ public class SearchFragment extends Fragment implements LoaderManager.LoaderCall
                 }
             });
             routeTextView = (TextView) itemView;
+            routeTextView.setClickable(true);
         }
 
         public void bindRoute(Route route) {

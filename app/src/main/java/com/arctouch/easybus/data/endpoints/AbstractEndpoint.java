@@ -26,7 +26,6 @@ public abstract class AbstractEndpoint<T, P> implements Endpoint<T, P> {
         this.httpHeaders = httpHeaders;
     }
 
-    // {"params": {"paramName": paramValue}}
     protected String buildJsonBody(String paramName, P paramValue) {
         JSONObject innerParam = new JSONObject();
         JSONObject params = new JSONObject();

@@ -18,7 +18,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
  */
 public class RouteJsonMappingTest {
 
-    // this is the response when querying 'findRoutesByStopName' with '%delminda%' as parameter
     private static final String SOME_ROUTES_RESPONSE =
             "{\"rows\":[" +
 
