@@ -4,6 +4,9 @@ import android.content.Context;
 
 import com.arctouch.easybus.R;
 import com.arctouch.easybus.data.endpoints.Endpoint;
+import com.arctouch.easybus.route.Route;
+import com.arctouch.easybus.route.schedule.ScheduleItem;
+import com.arctouch.easybus.route.stops.Stop;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -29,13 +32,13 @@ public class ServiceApiTest {
     private Context context;
 
     @Mock
-    private Endpoint routesEndpoint;
+    private Endpoint<Route, String> routesEndpoint;
 
     @Mock
-    private Endpoint stopsEndpoint;
+    private Endpoint<Stop, Long> stopsEndpoint;
 
     @Mock
-    private Endpoint scheduleEndpoint;
+    private Endpoint<ScheduleItem, Long> scheduleEndpoint;
 
     private ServiceApi instance;
 

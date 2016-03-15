@@ -37,12 +37,11 @@ public class StopJsonMappingTest {
 
     private Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
-    private List<Stop> stops;
     private StopsResult someStopsResult;
 
     @Before
     public void setup() {
-        stops = Arrays.asList(
+        List<Stop> stops = Arrays.asList(
                 new Stop(1, "TICEN", 1, 35),
                 new Stop(2, "RUA ANTÔNIO PEREIRA OLIVEIRA NETO", 2, 35),
                 new Stop(3, "AVENIDA OSVALDO RODRIGUES CABRAL", 3, 35),

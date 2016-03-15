@@ -31,12 +31,11 @@ public class ScheduleJsonMappingTest {
 
     private Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
-    private List<ScheduleItem> departures;
     private ScheduleResult someScheduleResult;
 
     @Before
     public void setup() {
-        departures = Arrays.asList(
+        List<ScheduleItem> departures = Arrays.asList(
                 new ScheduleItem(472, ScheduleItem.Calendar.WEEKDAY, "06:00"),
                 new ScheduleItem(711, ScheduleItem.Calendar.WEEKDAY, "06:09"),
                 new ScheduleItem(712, ScheduleItem.Calendar.WEEKDAY, "06:18"),

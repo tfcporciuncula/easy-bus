@@ -32,20 +32,18 @@ public class RouteJsonMappingTest {
 
     private Gson gson = new GsonBuilder().disableHtmlEscaping().create();
 
-    private Route route1;
-    private Route route2;
     private RoutesResult someRoutesResult;
 
     @Before
     public void setup() {
-        route1 = new Route();
+        Route route1 = new Route();
         route1.setId(22);
         route1.setShortName("131");
         route1.setLongName("AGRONÔMICA VIA GAMA D'EÇA");
         route1.setLastModifiedDate("2009-10-26T02:00:00+0000");
         route1.setAgencyId(9);
 
-        route2 = new Route();
+        Route route2 = new Route();
         route2.setId(32);
         route2.setShortName("133");
         route2.setLongName("AGRONÔMICA VIA MAURO RAMOS");
