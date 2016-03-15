@@ -24,9 +24,9 @@ public class ServiceApi {
 
     private Context context;
 
-    private Endpoint routesEndpoint;
-    private Endpoint stopsEndpoint;
-    private Endpoint scheduleEndpoint;
+    private Endpoint<Route, String> routesEndpoint;
+    private Endpoint<Stop, Long> stopsEndpoint;
+    private Endpoint<ScheduleItem, Long> scheduleEndpoint;
 
     public static ServiceApi instance(Context context) {
         if (instance == null) {
