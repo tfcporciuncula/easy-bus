@@ -1,5 +1,7 @@
 package com.arctouch.easybus.route;
 
+import com.google.common.base.Objects;
+
 import java.io.Serializable;
 
 /**
@@ -56,6 +58,24 @@ public class Route implements Serializable {
     @Override
     public String toString() {
         return shortName + " - " + longName;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id, shortName, longName, lastModifiedDate, agencyId);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof Route) {
+            Route that = (Route) o;
+            return Objects.equal(this.id, that.id)                              &&
+                    Objects.equal(this.shortName,        that.shortName)        &&
+                    Objects.equal(this.longName,         that.longName)         &&
+                    Objects.equal(this.lastModifiedDate, that.lastModifiedDate) &&
+                    Objects.equal(this.agencyId,         that.agencyId);
+        }
+        return false;
     }
 
 }

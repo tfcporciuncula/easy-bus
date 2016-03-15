@@ -1,5 +1,7 @@
 package com.arctouch.easybus.route.schedule;
 
+import com.google.common.base.Objects;
+
 import java.io.Serializable;
 
 /**
@@ -12,6 +14,12 @@ public class ScheduleItem implements Serializable {
     private long id;
     private Calendar calendar;
     private String time;
+
+    public ScheduleItem(long id, Calendar calendar, String time) {
+        this.id = id;
+        this.calendar = calendar;
+        this.time = time;
+    }
 
     public long getId() {
         return id;
@@ -40,6 +48,22 @@ public class ScheduleItem implements Serializable {
     @Override
     public String toString() {
         return calendar + " - " + time;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(id, calendar, time);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof ScheduleItem) {
+            ScheduleItem that = (ScheduleItem) o;
+            return Objects.equal(this.id,        that.id)       &&
+                    Objects.equal(this.calendar, that.calendar) &&
+                    Objects.equal(this.time,     that.time);
+        }
+        return false;
     }
 
 }

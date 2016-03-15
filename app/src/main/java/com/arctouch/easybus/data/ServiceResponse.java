@@ -1,5 +1,7 @@
 package com.arctouch.easybus.data;
 
+import com.google.common.base.Objects;
+
 import java.util.List;
 
 /**
@@ -26,6 +28,21 @@ public abstract class ServiceResponse<T> {
 
     public void setRowsAffected(int rowsAffected) {
         this.rowsAffected = rowsAffected;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(rows, rowsAffected);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof ServiceResponse) {
+            ServiceResponse that = (ServiceResponse) o;
+            return Objects.equal(this.rows, that.rows) &&
+                    Objects.equal(this.rowsAffected, that.rowsAffected);
+        }
+        return false;
     }
 
 }
