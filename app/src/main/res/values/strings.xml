@@ -1,0 +1,21 @@
+<resources>
+    <string name="app_name">Easy Bus</string>
+
+    <string name="search_menu_item_title">Search</string>
+    <string name="search_menu_item_hint">Street Name</string>
+    <string name="map_menu_item_title">Open Map</string>
+    <string name="search_progress_dialog_message">Searching…</string>
+    <string name="no_routes_found_message">No routes were found.</string>
+
+    <string name="itinerary_menu_item_title">Itinerary</string>
+    <string name="schedule_menu_item_title">Schedule</string>
+    <string name="route_progress_dialog_message">Loading…</string>
+
+    <string name="fetching_address">Fetching address…</string>
+    <string name="no_address_found">No address found</string>
+    <string name="no_address_selected_message">Please, select a valid address before searching.</string>
+    <string name="on_connection_failed_message">Connection with Google Maps has failed.</string>
+    <string name="on_connection_suspended_message">Connection with Google Maps has been suspended.</string>
+
+    <string name="no_internet_connection_message">There seems to be no Internet connection available.</string>
+</resources>
